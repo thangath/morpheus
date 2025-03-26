@@ -1,0 +1,8 @@
+- name: Start service
+  hosts: all # here give your instance name
+  become: yes
+  tasks:
+    - name: Start the service "firewalld"
+      service:
+        name: firewalld
+        state: started
