@@ -26,7 +26,7 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 data "vsphere_network" "network" {
-  name          = "v2109"
+  name          = "v2201"
   datacenter_id = data.vsphere_datacenter.datacenter.id
 }
 
@@ -36,7 +36,7 @@ data "vsphere_virtual_machine" "template" {
 }
 
 resource "vsphere_virtual_machine" "vm" {
-  name             = "VM0003"
+  name             = var.VMname
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
   num_cpus         = 2
