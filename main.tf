@@ -43,11 +43,8 @@ resource "vsphere_virtual_machine" "vm" {
   }
 clone {
     template_uuid = data.vsphere_virtual_machine.template.id
-      }
-  }
 }
   disk {
     label = "disk0"
     size  = 50
-  }
 }
