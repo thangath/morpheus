@@ -41,6 +41,11 @@ resource "vsphere_virtual_machine" "vm" {
     network_id   = data.vsphere_network.network.id
     adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
   }
+clone {
+    template_uuid = data.vsphere_virtual_machine.template.id
+      }
+  }
+}
   disk {
     label = "disk0"
     size  = 50
