@@ -1,1 +1,4 @@
 
+variable "VMname"{
+type = string
+}
