@@ -1,8 +1,3 @@
-variable "VMname"{
-type = string
-}
-
-
 provider "vsphere" {
   user                 = "terraform@hpe.vsp"
   password             = "Password!234"
