@@ -48,3 +48,4 @@ clone {
     label = "disk0"
     size  = 50
 }
+}
