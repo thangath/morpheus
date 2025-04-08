@@ -1,6 +1,7 @@
 - name: Stop service
   hosts: all # here give your instance name
   become: yes
+  become_user: root
   tasks:
     - name: Stop the service "firewalld"
       service:
