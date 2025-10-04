@@ -10,7 +10,7 @@
     # Construct the full API endpoint
     api_endpoint: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
   tasks:
-    - name: 1. API - Reserve the next available IP
+    - name: API - Reserve the next available IP
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: POST
@@ -26,12 +26,12 @@
       # Stop the playbook if the reservation fails.
       fail_on_error: true
       
-    - name: 2. Extract the reserved IP address
+    - name: Extract the reserved IP address
       # Use the 'json_query' filter to parse the response JSON and extract the value.
       ansible.builtin.set_fact:
         reserved_ip: "{{ ip_reservation_result.json | json_query('networkPoolIp.ipAddress') }}"
 
-    - name: 3. Display the reserved IP
+    - name: Display the reserved IP
       ansible.builtin.debug:
         msg: "✅ Successfully reserved IP address {{ reserved_ip }} from Pool ID {{ network_pool_id }}"
         
