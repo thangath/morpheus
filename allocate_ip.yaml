@@ -1,4 +1,3 @@
----
 - name: Reserve Next Available IP from Morpheus Pool
   hosts: localhost
   connection: local
