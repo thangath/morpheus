@@ -1,18 +1,16 @@
+---
 - name: Reserve Next Available IP from Morpheus Pool
   hosts: localhost
   connection: local
   gather_facts: false
-
   vars:
     morpheus_url: MORPHEUS_URL="https://hpepmcmp21.hpe.lab"
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
-    network_pool_id: "6"
-    
+    network_pool_id: "6"    
     # Construct the full API endpoint
     api_endpoint: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
-
   tasks:
-    - name: API - Reserve the next available IP
+    - name: 1. API - Reserve the next available IP
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: POST
