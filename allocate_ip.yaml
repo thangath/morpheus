@@ -12,7 +12,7 @@
     api_endpoint: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
 
   tasks:
-    - name: 1. API - Reserve the next available IP
+    - name: API - Reserve the next available IP
       ansible.builtin.uri:
         url: "{{ api_endpoint }}"
         method: POST
