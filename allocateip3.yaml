@@ -25,5 +25,6 @@
 
     - name: Print assigned IP
       debug:
-        hostname: "{{ response.json.networkPoolIp.hostname }}"
-        ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
+        msg: 
+          hostname: "{{ response.json.networkPoolIp.hostname }}"
+          ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
