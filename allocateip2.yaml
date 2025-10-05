@@ -5,6 +5,8 @@
   vars:
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
     full_url: "https://hpepmcmp21.hpe.lab/api/networks/pools/6/ips"
+    # api_token: "{{ lookup('env', 'API_TOKEN') }}"
+    # full_url: "{{ lookup('env', 'FULL_URL') }}"
     # hostname: "{{ input_hostname }}"
   tasks:
     - name: Request next available IP
