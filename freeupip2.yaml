@@ -4,8 +4,8 @@
   gather_facts: no
   vars:
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
-    # morpheus_url: "{{ lookup('env', 'https://hpepmcmp21.hpe.lab') }}"
-    morpheus_url: "https://hpepmcmp21.hpe.lab"
+    morpheus_url: "{{ lookup('env', 'https://hpepmcmp21.hpe.lab') }}"
+    # morpheus_url: "https://hpepmcmp21.hpe.lab"
     ip_id: 112  # Replace with actual IP ID
   tasks:
     - name: Get IP details before release (for backup)
