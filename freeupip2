@@ -33,7 +33,4 @@
     - name: Print release result
       debug:
         msg: "Released IP ID {{ ip_id }} successfully. Status: {{ delete_response.status }}"
-        # hostname: "{{ response.json.networkPoolIp.hostname }}"
-        # ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
-        var: response.json
         
