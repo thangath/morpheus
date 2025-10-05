@@ -8,19 +8,19 @@
     morpheus_url: "https://hpepmcmp21.hpe.lab"
     ip_id: 112  # Replace with actual IP ID
   tasks:
-    - name: Get IP details before release (for backup)
-      uri:
-        url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
-        method: GET
-        headers:
-          Authorization: "Bearer {{ api_token }}"
-        validate_certs: no
-      register: ip_details
+    #- name: Get IP details before release (for backup)
+    #  uri:
+    #    url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
+    #    method: GET
+    #    headers:
+    #      Authorization: "Bearer {{ api_token }}"
+    #    validate_certs: no
+    #  register: ip_details
 
-    - name: Save IP details as backup
-      copy:
-        content: "{{ ip_details.json | to_nice_json }}"
-        dest: "./backup_ip_{{ ip_id }}.json"
+    #- name: Save IP details as backup
+    #  copy:
+    #    content: "{{ ip_details.json | to_nice_json }}"
+    #    dest: "./backup_ip_{{ ip_id }}.json"
 
     - name: Release (delete) IP from pool
       uri:
