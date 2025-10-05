@@ -24,8 +24,8 @@
 
     - name: Print assigned IP
       debug:
-        # msg: "Hostname: {{ response.json.networkPoolIp.hostname }}, IP: {{ response.json.networkPoolIp.ipAddress }}"
+        msg: "Hostname: {{ response.json.networkPoolIp.hostname }}, IP: {{ response.json.networkPoolIp.ipAddress }}"
         # hostname: "{{ response.json.networkPoolIp.hostname }}"
         # ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
         # var: response.json
-        msg: "{{ response.content | from_json }}"
+        # msg: "{{ response.content | from_json }}"
