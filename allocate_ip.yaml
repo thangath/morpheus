@@ -12,3 +12,15 @@
   tasks:
     - name: API Reserve the next available IP
       service:
+      ansible.builtin.uri:
+        url: "{{ api_endpoint }}"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ api_token }}"
+          Content-Type: "application/json"
+        body_format: json
+        body: '{"networkPoolIp": {"ipAddress": "","staticIp": true,"hostname": "host-1"}}'
+        validate_certs: false # Equivalent to 'curl -k' for self-signed/local certs
+        status_code: 200, 201 # Expect either OK (200) or Created (201)
+      register: ip_reservation_result
+      fail_on_error: true
