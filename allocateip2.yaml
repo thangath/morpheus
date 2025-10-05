@@ -1,33 +1,27 @@
 ---
-- name: Get next available IP from Morpheus IP Pool
+- name: Get next available IP from Morpheus IP pool
   hosts: localhost
-  gather_facts: false
+  gather_facts: no
   vars:
-    morpheus_url: "https://hpepmcmp21.hpe.lab"
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
-    network_pool_id: 6
-    validate_certs: false
-
+    full_url: "https://hpepmcmp21.hpe.lab/api/networks/pools/6/ips"
   tasks:
-    - name: Get IP list from Morpheus pool
+    - name: Request next available IP
       uri:
-        url: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
-        method: GET
+        url: "{{ full_url }}"
+        method: POST
         headers:
           Authorization: "Bearer {{ api_token }}"
-          Accept: "application/json"
-        return_content: yes
-        validate_certs: "{{ validate_certs }}"
-      register: result
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          networkPoolIp:
+            ipAddress: ""
+            staticIp: true
+            hostname: "host-1"
+        validate_certs: no
+      register: response
 
-    - name: Extract next available IP
-      set_fact:
-        next_ip: >-
-          {{
-            (result.json.data | default(result.json) | selectattr('allocated', 'equalto', False)
-              | map(attribute='ipAddress') | list | first) | default('No available IP found')
-          }}
-
-    - name: Show next available IP
+    - name: Print assigned IP
       debug:
-        msg: "Next available IP: {{ next_ip }}"
+        msg: "{{ response.json.networkPoolIp.ipAddress }}"
