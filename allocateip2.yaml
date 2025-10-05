@@ -18,7 +18,7 @@
           networkPoolIp:
             ipAddress: ""
             staticIp: true
-            hostname: "host-1"
+            hostname: "host-2"
         validate_certs: no
       register: response
 
