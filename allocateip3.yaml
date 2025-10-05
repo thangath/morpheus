@@ -9,7 +9,7 @@
   tasks:
     - name: Request next available IP
       uri:
-        url: "{{ morpheus_url }}/api/networks/pools/{{ ip_pool_id }}/ips}}"
+        url: "{{ morpheus_url }}/api/networks/pools/{{ ip_pool_id }}/ips"
         method: POST
         headers:
           Authorization: "Bearer {{ api_token }}"
