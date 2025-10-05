@@ -1,0 +1,84 @@
+---
+- name: Get next available IP from Morpheus IP Pool
+  hosts: localhost
+  gather_facts: false
+  vars:
+    morpheus_url: "https://hpepmcmp21.hpe.lab"   # set your Morpheus base URL (no trailing slash)
+    api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"   # set your Bearer token or API token
+    network_pool_id: 6                             # set your pool id
+    validate_certs: false                          # set to true in prod if certs valid
+
+  tasks:
+    - name: Query Morpheus IP pool -- list IPs
+      uri:
+        url: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ api_token }}"
+          Accept: "application/json"
+        return_content: yes
+        validate_certs: "{{ validate_certs }}"
+      register: ips_response
+      failed_when: ips_response.status not in [200, 201, 202]
+
+    - name: Show raw API response (debug)
+      debug:
+        var: ips_response.json
+      when: ips_response is defined and ips_response.json is defined
+
+    - name: Find next available IP (best-effort)
+      set_fact:
+        next_available_ip: >-
+          {{
+            (
+              # 1) prefer items with allocated == false
+              (ips_response.json.data | default(ips_response.json) | default([]) 
+                | selectattr('allocated','equalto',False) 
+                | map(attribute='address') | list) 
+              +
+              # 2) fallback to items with inUse == false
+              (ips_response.json.data | default(ips_response.json) | default([]) 
+                | selectattr('inUse','equalto',False) 
+                | map(attribute='address') | list)
+              +
+              # 3) generic fallback: take first item with an 'address' field
+              (ips_response.json.data | default(ips_response.json) | default([]) 
+                | map(attribute='address') | select('defined') | list)
+            ) | select('string') | list | first | default('')
+          }}
+      vars:
+        # note: if your API uses other field names, update the map(attribute='...') calls above:
+        # common alternates: 'ip', 'ipAddress', 'ip_address'
+      when: ips_response.json is defined
+
+    - name: If we didn't find an IP yet, try common alternate attribute names
+      set_fact:
+        next_available_ip: >-
+          {{
+            (
+              (ips_response.json.data | default(ips_response.json) | default([])
+                | selectattr('allocated','equalto',False)
+                | map(attribute='ip') | list)
+              +
+              (ips_response.json.data | default(ips_response.json) | default([])
+                | selectattr('allocated','equalto',False)
+                | map(attribute='ipAddress') | list)
+              +
+              (ips_response.json.data | default(ips_response.json) | default([])
+                | map(attribute='ip') | select('defined') | list)
+            ) | select('string') | list | first | default(next_available_ip | default(''))
+          }}
+      when:
+        - ips_response.json is defined
+        - (next_available_ip is not defined) or (next_available_ip == '')
+
+    - name: Fail if no available IP found
+      fail:
+        msg: >-
+          Could not determine a next available IP from the Morpheus response.
+          Please inspect the API output and adjust attribute names in the playbook.
+      when: next_available_ip is not defined or next_available_ip == ''
+
+    - name: Display next available IP
+      debug:
+        msg: "Next available IP from pool {{ network_pool_id }} is: {{ next_available_ip }}"
