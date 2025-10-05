@@ -1,11 +1,10 @@
----
 - name: Get next available IP from Morpheus IP pool
   hosts: localhost
   gather_facts: no
   vars:
     morpheus_url: "https://hpepmcmp21.hpe.lab"
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
-    ip_pool_id: 6
+    ip_pool_id: 6 # 
   tasks:
     - name: Request next available IP
       uri:
