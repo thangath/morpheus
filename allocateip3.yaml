@@ -19,7 +19,7 @@
           networkPoolIp:
             ipAddress: ""
             staticIp: true
-            hostname: "host-2" # hostname for the VM
+            hostname: "host-2" # hostname of the VM
         validate_certs: no
       register: response
 
