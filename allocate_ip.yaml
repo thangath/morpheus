@@ -12,5 +12,3 @@
   tasks:
     - name: Start the service "firewalld"
       service:
-        name: firewalld
-        state: started
