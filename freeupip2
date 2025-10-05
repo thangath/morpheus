@@ -1,0 +1,39 @@
+---
+- name: Backup and release IP from Morpheus IP pool
+  hosts: localhost
+  gather_facts: no
+  vars:
+    api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
+    morpheus_url: "{{ lookup('env', 'MORPHEUS_URL') }}"
+    ip_id: 12345  # Replace with actual IP ID
+  tasks:
+    - name: Get IP details before release (for backup)
+      uri:
+        url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ api_token }}"
+        validate_certs: no
+      register: ip_details
+
+    - name: Save IP details as backup
+      copy:
+        content: "{{ ip_details.json | to_nice_json }}"
+        dest: "./backup_ip_{{ ip_id }}.json"
+
+    - name: Release (delete) IP from pool
+      uri:
+        url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
+        method: DELETE
+        headers:
+          Authorization: "Bearer {{ api_token }}"
+        validate_certs: no
+      register: delete_response
+
+    - name: Print release result
+      debug:
+        msg: "Released IP ID {{ ip_id }} successfully. Status: {{ delete_response.status }}"
+        # hostname: "{{ response.json.networkPoolIp.hostname }}"
+        # ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
+        var: response.json
+        
