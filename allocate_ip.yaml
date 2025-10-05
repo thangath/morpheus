@@ -10,5 +10,5 @@
     # Construct the full API endpoint
     api_endpoint: "{{ morpheus_url }}/api/networks/pools/{{ network_pool_id }}/ips"
   tasks:
-    - name: Start the service "firewalld"
+    - name: API Reserve the next available IP
       service:
