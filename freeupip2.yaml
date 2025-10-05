@@ -24,7 +24,8 @@
 
     - name: Release (delete) IP from pool
       uri:
-        url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
+        #url: "{{ morpheus_url }}/api/networks/pools/ips/{{ ip_id }}"
+        url: "{{ morpheus_url }}/api/networks/pools/6/ips/{{ ip_id }}"
         method: DELETE
         headers:
           Authorization: "Bearer {{ api_token }}"
