@@ -28,4 +28,4 @@
         hostname: "{{ response.json.networkPoolIp.hostname }}"
         ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
         var: response.json
-        msg: "{{ response.content | from_json }}"
+        msg: "{{ response.content}}"
