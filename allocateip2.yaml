@@ -5,6 +5,7 @@
   vars:
     api_token: "871a4bfa-6f96-4043-b7cc-52711171f088"
     full_url: "https://hpepmcmp21.hpe.lab/api/networks/pools/6/ips"
+    hostname: "{{ input_hostname }}"
   tasks:
     - name: Request next available IP
       uri:
@@ -18,7 +19,8 @@
           networkPoolIp:
             ipAddress: ""
             staticIp: true
-            hostname: "host-2"
+            # hostname: "host-2"
+            hostname: "{{ hostname }}"
         validate_certs: no
       register: response
 
