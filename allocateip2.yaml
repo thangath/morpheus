@@ -27,4 +27,4 @@
         # msg: "Hostname: {{ response.json.networkPoolIp.hostname }}, IP: {{ response.json.networkPoolIp.ipAddress }}"
         # hostname: "{{ response.json.networkPoolIp.hostname }}"
         # ipAddress: "{{ response.json.networkPoolIp.ipAddress }}"
-        msg: "{{ response.content}}"
+        msg: "{{ response.json }}"
